@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Linking, ScrollView } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 
 export default class Profile extends React.Component {
@@ -14,7 +14,18 @@ export default class Profile extends React.Component {
   render(){ 
     return(
       <View style={styles.parent}>
-        <Text>Hello there.</Text>
+        <View style={styles.header}>
+          <Text>I go back.</Text>
+        </View>
+        <View style={styles.profile}>
+          <Text>I know myself.</Text>
+        </View>
+        <View style={styles.stats}>
+          <Text>I know how good I am.</Text>
+        </View>
+        <View style={styles.footer}>
+          <Text>I clear everything.</Text>
+        </View>
       </View>
     );
   }

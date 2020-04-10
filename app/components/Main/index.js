@@ -12,6 +12,7 @@ export default class Main extends React.Component {
       total: 0,
       avg: 0,
       avglast: 0,
+      last: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       question: 'Non est salvatori salvator neque defensori dominus nec pater nec mater nihil supernum Non est salvatori salvator neque defensori dominus nec pater nec mater nihil supernum',
       a: 'Magis',
       b: 'Nihil Supernum',
@@ -28,7 +29,13 @@ export default class Main extends React.Component {
     {
       correct = 1;
     }
-    this.props.navigation.navigate('Transition', {correct: correct, prob: p, qno: this.state.qno, total: this.state.total, avg: this.state.avg, avglast: this.state.avglast});
+    this.props.navigation.navigate('Transition', {correct: correct, prob: p, qno: this.state.qno, 
+                                                  total: this.state.total, avg: this.state.avg, avglast: this.state.avglast, 
+                                                  last: this.state.last, returnData: this.returnData.bind(this)});
+  };
+
+  returnData(q, t, l){
+    this.setState({qno: q+1, total: t, avg: t/(q), last: l});
   };
 
   static navigationOptions={

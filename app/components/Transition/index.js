@@ -12,6 +12,7 @@ export default class Main extends React.Component {
       total: 0,
       avg: 0,
       avglast: 0,
+      last: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       scorestrue: {50: 0, 60: 26, 70: 49, 80: 68, 90: 85, 99: 99},
       scoresfalse: {50: 0, 60: -32, 70: -74, 80: -132, 90: -232, 99: -564},
       prob: 0,
@@ -21,36 +22,43 @@ export default class Main extends React.Component {
       responseRight: "You're right, and that's good.",
       responseWrong50: "You're wrong, for all the bad that does you.",
       responseWrong: "You're wrong, and you will suffer for it.",
-      trigger: 0,
+      trigger: 1,
     }
   }
 
-  log = () => {
-    console.log(this.state.prob);
-  };
-
   updatescorewin = (p) => {
     const scorestrue = {50: 0, 60: 26, 70: 49, 80: 68, 90: 85, 99: 99};
-    this.setState({score: scorestrue[p]}, this.log());
+    this.setState({score: scorestrue[p]});
   };
   updatescoreloss = (p) => {
     const scoresfalse = {50: 0, 60: -32, 70: -74, 80: -132, 90: -232, 99: -564};
     this.setState({score: scoresfalse[p]});
   };
 
-  updatetotal = (t, a, al, q) => {
-    this.setState({total: t+this.state.score}, this.updateavg(a, al, t, q));
+  updatetotal = (t, a, al, q, l) => {
+    this.setState((state) => ({total: t+state.score}));
+    this.updateavg(a, al, t, q, l);
   };
 
-  updateavg = (a, al, t, q) => {
-    this.setState({avg: (t)/(q)}, this.updateavglast(al, t, q));
+  updateavg = (a, al, t, q, l) => {
+    this.setState((state) => ({avg: state.total/q}));
+    this.updateavglast(al, t, q, l);
   }; 
 
-  updateavglast = (al, t, q) => {
-    this.setState({avglast: (t)/(q)}, this.setState({trigger: 1}));
+  updateavglast = (al, t, q, l) => {
+    let lsum = l.reduce((a, b) => a + b, 0)
+    if(q > 10)
+    { 
+      this.setState({avglast: lsum/10});
+    }
+    else
+    {
+      this.setState({avglast: lsum/q});
+    }
+    console.log(lsum);
   }; 
 
-  updatescore = (c, p, q, t, a, al) => {
+  updatescore = (c, p, q, t, a, al, l) => {
     if(c == 1)
     {
       this.updatescorewin(p);
@@ -59,22 +67,46 @@ export default class Main extends React.Component {
     {
       this.updatescoreloss(p);
     };
-    this.updatetotal(t, a, al, q);
+    this.updatetotal(t, a, al, q, l);
   };
 
-  update = (c, p, q, t, a, al) => {
-    this.setState({correct: c, prob: p, qno: q}, this.updatescore(c, p, q, t, a, al));
+  update = (c, p, q, t, a, al, l) => {
+    const scorestrue = {50: 0, 60: 26, 70: 49, 80: 68, 90: 85, 99: 99};
+    const scoresfalse = {50: 0, 60: -32, 70: -74, 80: -132, 90: -232, 99: -564};
+    let qno = 0;
+    if(q%10 == 0)
+    {
+      qno = 9;
+    }
+    else{
+      qno = (q % 10) - 1;
+    }
+    if(c == 1)
+    {
+      l[qno] = scorestrue[p];
+    }
+    else
+    {
+      l[qno] = scoresfalse[p];
+    }
+    this.setState({correct: c, prob: p, qno: q, last: l}, this.updatescore(c, p, q, t, a, al, l));
+  };
+
+  return = () => {
+    this.props.navigation.state.params.returnData(this.state.qno, this.state.total, this.state.last);
+    this.props.navigation.goBack();
   };
 
   componentDidMount () {
     const { navigation } = this.props;  
-    const correct = navigation.getParam('correct', 0);
-    const prob = navigation.getParam('prob', 50);
-    const qno = navigation.getParam('qno', 0);
-    const total = navigation.getParam('total', 0);
-    const avg = navigation.getParam('avg', 0);  
-    const avglast = navigation.getParam('avglast', 0);
-    this.update(correct, prob, qno, total, avg, avglast);
+    const c = navigation.getParam('correct', 0);
+    const p = navigation.getParam('prob', 50);
+    const q = navigation.getParam('qno', 0);
+    const t = navigation.getParam('total', 0);
+    const a = navigation.getParam('avg', 0);  
+    const al = navigation.getParam('avglast', 0);
+    const l = navigation.getParam('last', [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    this.update(c, p, q, t, a, al, l);
   };
 
   static navigationOptions={
@@ -115,12 +147,17 @@ export default class Main extends React.Component {
                       this.state.prob == 50 ?
                         <Text style={styles.secondBodyText}>{this.state.responseRight50}{"\n\n"}You gained 0 points.</Text>
                       :
-                        <Text style={styles.secondBodyText}>{this.state.responseRight}{"\n\n"}You gained +{this.state.scorestrue[this.state.prob]} points.</Text>
+                        <Text style={styles.secondBodyText}>
+                          {this.state.responseRight}{"\n\n"}You gained +{this.state.scorestrue[this.state.prob]} points.
+                        </Text>
                     :
                       this.state.prob == 50 ?
                         <Text style={styles.secondBodyText}>{this.state.responseWrong50}{"\n\n"}You lost 0 points.</Text>
                       :
-                        <Text style={styles.secondBodyText}>{this.state.responseWrong}{"\n\n"}You lost {this.state.scoresfalse[this.state.prob]} points.{"\n"}(Don{"'"}t mention the double negative.)</Text>
+                        <Text style={styles.secondBodyText}>
+                          {this.state.responseWrong}{"\n\n"}You lost {this.state.scoresfalse[this.state.prob]} points.{"\n"}
+                          <Text style={{fontSize: 13,}}>(Don{"'"}t mention the double negative.)</Text>
+                        </Text>
                   }
                 </View>
                 <View style={styles.secondBodyStatsView}>
@@ -165,7 +202,7 @@ export default class Main extends React.Component {
               </View>
               <View style={styles.secondFooter}>
                 <ShadowView style={styles.secondNext}>
-                  <TouchableOpacity style={{flex: 1, justifyContent: 'center'}} onPress={() => {this.setState({choice: '', prob: 0, qno: this.state.qno+1})}}>
+                  <TouchableOpacity style={{flex: 1, justifyContent: 'center'}} onPress={() => {this.return()}}>
                     <LinearTextGradient
                       style={styles.secondNextText}
                       locations={[0, 1]}
