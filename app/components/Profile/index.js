@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Linking, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, Linking, ScrollView } from 'react-native';
 import styles from './styles';
 
-export default class La2013 extends React.Component {
+export default class Profile extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -14,7 +14,7 @@ export default class La2013 extends React.Component {
   render(){ 
     return(
       <View style={styles.parent}>
-      
+        <Text>Hello there.</Text>
       </View>
     );
   }
