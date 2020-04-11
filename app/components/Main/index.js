@@ -13,7 +13,10 @@ export default class Main extends React.Component {
       avg: 0,
       avglast: 0,
       last: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      question: 'Non est salvatori salvator neque defensori dominus nec pater nec mater nihil supernum Non est salvatori salvator neque defensori dominus nec pater nec mater nihil supernum',
+      common: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
+      common_right: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
+      common_wrong: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
+      question: 'Non est salvatori salvator neque defensori dominus nec pater nec mater nihil supernum',
       a: 'Magis',
       b: 'Nihil Supernum',
       answer: 'a',
@@ -24,18 +27,38 @@ export default class Main extends React.Component {
 
   update = (c, p) => {
     this.setState({choice: c, prob: p});
+    let com = this.state.common;
+    let comr = this.state.common_right;
+    let comw = this.state.common_wrong;
+    com[p] = com[p] + 1;
     let correct = 0;
     if(c == this.state.answer)
     {
       correct = 1;
+      comr[p] = comr[p] + 1;
     }
-    this.props.navigation.navigate('Transition', {correct: correct, prob: p, qno: this.state.qno, 
-                                                  total: this.state.total, avg: this.state.avg, avglast: this.state.avglast, 
-                                                  last: this.state.last, returnData: this.returnData.bind(this)});
+    else
+    {
+      comw[p] = comw[p] + 1;
+    }
+    this.props.navigation.navigate('Transition', {correct: correct, prob: p, qno: this.state.qno, total: this.state.total, 
+                                                  avg: this.state.avg, avglast: this.state.avglast, last: this.state.last, 
+                                                  returnData: this.returnData.bind(this), common: com, common_right: comr,
+                                                  common_wrong: comw});
   };
 
-  returnData(q, t, l){
-    this.setState({qno: q+1, total: t, avg: t/(q), last: l});
+  toProfile = () => {
+    this.props.navigation.navigate('Profile', { qno: this.state.qno, total: this.state.total, avg: this.state.avg, 
+                                                avglast: this.state.avglast, last: this.state.last, 
+                                                returnProfile: this.returnProfile.bind(this), common: this.state.common, 
+                                                common_right: this.state.common_right, common_wrong: this.state.common_wrong});
+  };
+  returnProfile(q, t, a, al, l, com, comr, comw){
+    this.setState({qno: q, total: t, avg: a, avglast: al, last: l, common: com, common_right: comr, common_wrong: comw});
+  };
+
+  returnData(q, t, a, al, l, com, comr, comw){
+    this.setState({qno: q+1, total: t, avg: a, avglast: al, last: l, common: com, common_right: comr, common_wrong: comw});
   };
 
   static navigationOptions={
@@ -47,7 +70,7 @@ export default class Main extends React.Component {
         <View style={{flex: 1}}>
           <View style={styles.header}>
             <View style={styles.profileView}>
-              <TouchableOpacity style={styles.profileButton} onPress={() => {this.props.navigation.navigate('Profile')}}>
+              <TouchableOpacity style={styles.profileButton} onPress={() => {this.toProfile()}}>
                 <Text style={styles.profile}>Profile</Text>
               </TouchableOpacity>
             </View>

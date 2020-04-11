@@ -13,6 +13,9 @@ export default class Main extends React.Component {
       avg: 0,
       avglast: 0,
       last: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      common: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
+      common_right: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
+      common_wrong: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
       scorestrue: {50: 0, 60: 26, 70: 49, 80: 68, 90: 85, 99: 99},
       scoresfalse: {50: 0, 60: -32, 70: -74, 80: -132, 90: -232, 99: -564},
       prob: 0,
@@ -55,7 +58,6 @@ export default class Main extends React.Component {
     {
       this.setState({avglast: lsum/q});
     }
-    console.log(lsum);
   }; 
 
   updatescore = (c, p, q, t, a, al, l) => {
@@ -92,8 +94,19 @@ export default class Main extends React.Component {
     this.setState({correct: c, prob: p, qno: q, last: l}, this.updatescore(c, p, q, t, a, al, l));
   };
 
+  toProfile = () => {
+    this.props.navigation.navigate('Profile', { qno: this.state.qno, total: this.state.total, avg: this.state.avg, 
+                                                avglast: this.state.avglast, last: this.state.last, 
+                                                returnProfile: this.returnProfile.bind(this), common: this.state.common, 
+                                                common_right: this.state.common_right, common_wrong: this.state.common_wrong});
+  };
+  returnProfile(q, t, a, al, l, com, comr, comw){
+    this.setState({qno: q, total: t, avg: a, avglast: al, last: l, common: com, common_right: comr, common_wrong: comw});
+  };
+
   return = () => {
-    this.props.navigation.state.params.returnData(this.state.qno, this.state.total, this.state.last);
+    this.props.navigation.state.params.returnData(this.state.qno, this.state.total, this.state.avg, this.state. avglast, this.state.last, 
+                                                  this.state.common, this.state.common_right, this.state.common_wrong);
     this.props.navigation.goBack();
   };
 
@@ -106,6 +119,10 @@ export default class Main extends React.Component {
     const a = navigation.getParam('avg', 0);  
     const al = navigation.getParam('avglast', 0);
     const l = navigation.getParam('last', [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    const com = navigation.getParam('common', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
+    const comr = navigation.getParam('common_right', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
+    const comw = navigation.getParam('common_wrong', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
+    this.setState({common: com, common_right: comr, common_wrong: comw});
     this.update(c, p, q, t, a, al, l);
   };
 
@@ -120,7 +137,7 @@ export default class Main extends React.Component {
             <View style={{flex: 1}}>
               <View style={styles.secondheader}>
                 <View style={styles.secondprofileView}>
-                  <TouchableOpacity style={styles.secondprofileButton} onPress={() => {this.props.navigation.navigate('Profile')}}>
+                  <TouchableOpacity style={styles.secondprofileButton} onPress={() => {this.toProfile()}}>
                     <Text style={styles.secondprofile}>Profile</Text>
                   </TouchableOpacity>
                 </View>
