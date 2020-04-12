@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import { LinearTextGradient } from "react-native-text-gradient";
-import ShadowView from 'react-native-simple-shadow-view'
+import ShadowView from 'react-native-simple-shadow-view';
+import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 
 export default class Main extends React.Component {
@@ -28,6 +29,21 @@ export default class Main extends React.Component {
       trigger: 1,
     }
   }
+
+  setData = async (q) => {
+    try {
+      await AsyncStorage.setItem('qno', (q+1).toString());
+      await AsyncStorage.setItem('total', this.state.total.toString());
+      await AsyncStorage.setItem('avg', this.state.avg.toString());
+      await AsyncStorage.setItem('avglast', this.state.avglast.toString());
+      await AsyncStorage.setItem('last', JSON.stringify(this.state.last));
+    } catch (e) {
+      Alert.alert(
+        'Someone messed up',
+        'Try again.'
+      )
+    }
+  };
 
   updatescorewin = (p) => {
     const scorestrue = {50: 0, 60: 26, 70: 49, 80: 68, 90: 85, 99: 99};
@@ -58,6 +74,7 @@ export default class Main extends React.Component {
     {
       this.setState({avglast: lsum/q});
     }
+    this.setData(q);
   }; 
 
   updatescore = (c, p, q, t, a, al, l) => {
@@ -91,7 +108,7 @@ export default class Main extends React.Component {
     {
       l[qno] = scoresfalse[p];
     }
-    this.setState({correct: c, prob: p, qno: q, last: l}, this.updatescore(c, p, q, t, a, al, l));
+    this.setState({correct: c, prob: p, last: l}, this.updatescore(c, p, q, t, a, al, l));
   };
 
   toProfile = () => {
@@ -122,12 +139,12 @@ export default class Main extends React.Component {
     const com = navigation.getParam('common', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
     const comr = navigation.getParam('common_right', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
     const comw = navigation.getParam('common_wrong', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
-    this.setState({common: com, common_right: comr, common_wrong: comw});
+    this.setState({qno: q, common: com, common_right: comr, common_wrong: comw});
     this.update(c, p, q, t, a, al, l);
   };
 
   static navigationOptions={
-    header: null  
+    headerShown: false
   }
   render(){ 
     return(

@@ -1,12 +1,14 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image, TextInput, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 
 export default class Profile extends React.Component {
   constructor() {
     super()
     this.state = {
+      name: 'Player',
       qno: 1,
       total: 0,
       avg: 0,
@@ -22,8 +24,8 @@ export default class Profile extends React.Component {
   }
 
   return = () => {
-    this.props.navigation.state.params.returnProfile(this.state.qno, this.state.total, this.state.avg, this.state. avglast, this.state.last, 
-                                                  this.state.common, this.state.common_right, this.state.common_wrong);
+    this.props.navigation.state.params.returnProfile( this.state.qno, this.state.total, this.state.avg, this.state. avglast, this.state.last, 
+                                                      this.state.common, this.state.common_right, this.state.common_wrong);
     this.props.navigation.goBack();
   };
 
@@ -41,6 +43,14 @@ export default class Profile extends React.Component {
       )
   };
 
+  setName = async (text) => {
+    await AsyncStorage.setItem('name', text);
+  };
+  getName = async () => {
+    const name = await AsyncStorage.getItem('name');
+    this.setState({name: name});
+  };
+
   componentDidMount () {
     const { navigation } = this.props;  
     const q = navigation.getParam('qno', 0);
@@ -51,6 +61,7 @@ export default class Profile extends React.Component {
     const com = navigation.getParam('common', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
     const comr = navigation.getParam('common_right', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
     const comw = navigation.getParam('common_wrong', {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0});
+    this.getName();
     var c = 0;
     var cr = 0;
     var cw = 0;
@@ -82,7 +93,7 @@ export default class Profile extends React.Component {
   };
 
   static navigationOptions={
-    header: null  
+    headerShown: false
   }
   render(){ 
     return(
@@ -102,7 +113,8 @@ export default class Profile extends React.Component {
             />
           </View>
           <View style={styles.nameView}>
-            <TextInput style={styles.name} placeholder="Player" placeholderTextColor="#F0F0F0" maxLength = {40}/>
+            <TextInput style={styles.name} placeholder={this.state.name} onChangeText={(text) => {this.setName(text)}} 
+              placeholderTextColor="#F0F0F0" maxLength = {40}/>
           </View>
           <View style={{flex: 1}}/>
         </View>

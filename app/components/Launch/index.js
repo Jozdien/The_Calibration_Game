@@ -14,7 +14,7 @@ export default class Launch extends React.Component {
     }
   }
   static navigationOptions={
-    header: null  
+    headerShown: false
   }
   render(){ 
     return(

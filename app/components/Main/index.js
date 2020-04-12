@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import { LinearTextGradient } from "react-native-text-gradient";
-import ShadowView from 'react-native-simple-shadow-view'
+import ShadowView from 'react-native-simple-shadow-view';
+import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 
 export default class Main extends React.Component {
@@ -25,6 +26,19 @@ export default class Main extends React.Component {
     }
   }
 
+  storeData = async (com, comr, comw) => {
+    try {
+      await AsyncStorage.setItem('common', JSON.stringify(com));
+      await AsyncStorage.setItem('common_right', JSON.stringify(comr));
+      await AsyncStorage.setItem('common_wrong', JSON.stringify(comw));
+    } catch (e) {
+      Alert.alert(
+        'Someone messed up',
+        'Try again.'
+      )
+    }
+  };
+
   update = (c, p) => {
     this.setState({choice: c, prob: p});
     let com = this.state.common;
@@ -41,6 +55,7 @@ export default class Main extends React.Component {
     {
       comw[p] = comw[p] + 1;
     }
+    this.storeData(com, comr, comw);
     this.props.navigation.navigate('Transition', {correct: correct, prob: p, qno: this.state.qno, total: this.state.total, 
                                                   avg: this.state.avg, avglast: this.state.avglast, last: this.state.last, 
                                                   returnData: this.returnData.bind(this), common: com, common_right: comr,
@@ -61,8 +76,28 @@ export default class Main extends React.Component {
     this.setState({qno: q+1, total: t, avg: a, avglast: al, last: l, common: com, common_right: comr, common_wrong: comw});
   };
 
+  beginSet = async () => {
+    try {
+      const q = parseInt(await AsyncStorage.getItem('qno'));
+      const t = parseInt(await AsyncStorage.getItem('total'));
+      const a = parseFloat(await AsyncStorage.getItem('avg'));
+      const al = parseFloat(await AsyncStorage.getItem('avglast'));
+      const la = JSON.parse(await AsyncStorage.getItem('last'));
+      const common = JSON.parse(await AsyncStorage.getItem('common'));
+      const common_right = JSON.parse(await AsyncStorage.getItem('common_right'));
+      const common_wrong = JSON.parse(await AsyncStorage.getItem('common_wrong'));
+      this.setState({qno: q, total: t, avg: a, avglast: al, last: la, common: common, common_right: common_right, common_wrong: common_wrong});
+    } catch(e) {
+      console.log("No, error here, sire");
+    }
+  };
+
+  componentDidMount () {
+    this.beginSet();
+  };
+
   static navigationOptions={
-    header: null  
+    headerShown: false  
   }
   render(){ 
     return(

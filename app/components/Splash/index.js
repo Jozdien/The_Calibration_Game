@@ -9,7 +9,7 @@ export default class Splash extends React.Component {
     }
   }
   static navigationOptions={
-    header: null  
+    headerShown: false
   }
   render(){ 
     return(
