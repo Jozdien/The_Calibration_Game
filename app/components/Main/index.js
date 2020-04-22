@@ -3,12 +3,15 @@ import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import { LinearTextGradient } from "react-native-text-gradient";
 import ShadowView from 'react-native-simple-shadow-view';
 import AsyncStorage from '@react-native-community/async-storage';
+import {db} from './../../../src/config.js';
+import questions from './../assets/questions.json';
 import styles from './styles';
 
 export default class Main extends React.Component {
   constructor() {
     super()
     this.state = {
+      questions: {},
       qno: 1,
       total: 0,
       avg: 0,
@@ -74,11 +77,13 @@ export default class Main extends React.Component {
 
   returnData(q, t, a, al, l, com, comr, comw){
     this.setState({qno: q+1, total: t, avg: a, avglast: al, last: l, common: com, common_right: comr, common_wrong: comw});
+    this.getQuestion();
   };
 
   beginSet = async () => {
-    try {
-      const q = parseInt(await AsyncStorage.getItem('qno'));
+    const q = parseInt(await AsyncStorage.getItem('qno'));
+    if(Number.isNaN(q) == false)
+    {
       const t = parseInt(await AsyncStorage.getItem('total'));
       const a = parseFloat(await AsyncStorage.getItem('avg'));
       const al = parseFloat(await AsyncStorage.getItem('avglast'));
@@ -87,12 +92,78 @@ export default class Main extends React.Component {
       const common_right = JSON.parse(await AsyncStorage.getItem('common_right'));
       const common_wrong = JSON.parse(await AsyncStorage.getItem('common_wrong'));
       this.setState({qno: q, total: t, avg: a, avglast: al, last: la, common: common, common_right: common_right, common_wrong: common_wrong});
-    } catch(e) {
-      console.log("No, error here, sire");
     }
   };
 
+  getQuestion = () => {
+    db.ref('questions/')
+      .once('value')
+      .then(snapshot => {
+        this.setState({questions: snapshot.val()});
+        this.makeQuestion();
+    });
+  };
+
+  makeQuestion = () => {
+    var questions = this.state.questions;
+    var category = Object.keys(questions)[Math.floor(Math.random()*8)];
+    if(category == "Rich")
+    {
+      questions = questions[category][Math.floor(Math.random()*10) + 2010];
+    }
+    else if(category == "Population")
+    {
+      var arr1 = ["2000", "2020"];
+      questions = questions[category][arr1[(Math.floor(Math.random()*2))]];
+    }
+    else if(category == "Movies")
+    {
+      var arr2 = ["Adjusted", "Unadjusted"];
+      questions = questions[category][arr2[(Math.floor(Math.random()*2))]];
+    }
+    else
+    {
+      questions = questions[category];
+    }
+    var number = Object.keys(questions).length - 2;
+    var a_index = Math.floor(Math.random()*number);
+    var b_index = Math.floor(Math.random()*number);
+    while(a_index == b_index)
+    {
+      b_index = Math.floor(Math.random()*number);
+    }
+    var a = questions[a_index];
+    var b = questions[b_index];
+    var answer = a_index>b_index ? "b" : "a";
+    var answers = ["a", "b"];
+    if(category == "Equal")
+    {
+      answer = answers[Math.floor(Math.random()*2)];
+    }
+    else if(category == "Unequal Pattern")
+    {
+      var choice = Math.floor(Math.random()*10);
+      answer = choice<7 ? answers[0] : answers[1];
+    }
+    else if(category == "Unequal Qno")
+    {
+      var choice = Math.floor(Math.random()*100);
+      answer = choice<98 ? answers[0] : answers[1];
+      if(a == "Qno")
+      {
+        a = this.state.qno;
+      }
+      else
+      {
+        b = this.state.qno;
+      }
+    }
+    var question = a + " and " + b + " " + questions["Question"];
+    this.setState({question: question, a: a, b: b, answer: answer});
+  };
+
   componentDidMount () {
+    this.getQuestion();
     this.beginSet();
   };
 
