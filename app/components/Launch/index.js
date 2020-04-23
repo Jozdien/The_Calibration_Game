@@ -3,6 +3,8 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import { LinearTextGradient } from "react-native-text-gradient";
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import AsyncStorage from '@react-native-community/async-storage';
+import SplashScreen from 'react-native-splash-screen';
 import styles from './styles';
 
 export default class Launch extends React.Component {
@@ -13,6 +15,24 @@ export default class Launch extends React.Component {
       why: 0,
     }
   }
+
+  first = async () => {
+    const first = await AsyncStorage.getItem('first');
+    if(first == "1")
+    {
+      this.props.navigation.navigate("Main");
+    }
+  };
+
+  transfer = async () => {
+    await AsyncStorage.setItem('first', "1");
+    this.props.navigation.navigate('Example_Main');
+  };
+
+  componentDidMount() {
+    setTimeout(() => SplashScreen.hide() , 1500);
+    this.first();
+  };
   static navigationOptions={
     headerShown: false
   }
@@ -162,7 +182,7 @@ export default class Launch extends React.Component {
             }
             </View>
             <View style={styles.playView}>
-              <TouchableOpacity style={styles.play} onPress={() => {this.props.navigation.navigate('Main')}}>
+              <TouchableOpacity style={styles.play} onPress={() => {this.transfer()}}>
                 <LinearTextGradient
                   style={styles.playText}
                   locations={[0, 1]}

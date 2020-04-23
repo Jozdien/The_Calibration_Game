@@ -20,151 +20,22 @@ export default class Main extends React.Component {
       common: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
       common_right: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
       common_wrong: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0},
-      question: 'Non est salvatori salvator neque defensori dominus nec pater nec mater nihil supernum',
-      a: 'Magis',
-      b: 'Nihil Supernum',
-      answer: 'a',
+      question: 'Which is greater of the two following number choices?',
+      a: '200',
+      b: '9000',
+      answer: 'b',
       choice: '',
       prob: 0,
     }
   }
 
-  storeData = async (com, comr, comw) => {
-    try {
-      await AsyncStorage.setItem('common', JSON.stringify(com));
-      await AsyncStorage.setItem('common_right', JSON.stringify(comr));
-      await AsyncStorage.setItem('common_wrong', JSON.stringify(comw));
-    } catch (e) {
-      Alert.alert(
-        'Someone messed up',
-        'Try again.'
-      )
-    }
-  };
-
   update = (c, p) => {
-    this.setState({choice: c, prob: p});
-    let com = this.state.common;
-    let comr = this.state.common_right;
-    let comw = this.state.common_wrong;
-    com[p] = com[p] + 1;
     let correct = 0;
     if(c == this.state.answer)
     {
       correct = 1;
-      comr[p] = comr[p] + 1;
     }
-    else
-    {
-      comw[p] = comw[p] + 1;
-    }
-    this.storeData(com, comr, comw);
-    this.props.navigation.navigate('Transition', {correct: correct, prob: p, qno: this.state.qno, total: this.state.total, 
-                                                  avg: this.state.avg, avglast: this.state.avglast, last: this.state.last, 
-                                                  returnData: this.returnData.bind(this), common: com, common_right: comr,
-                                                  common_wrong: comw});
-  };
-
-  toProfile = () => {
-    this.props.navigation.navigate('Profile', { qno: this.state.qno, total: this.state.total, avg: this.state.avg, 
-                                                avglast: this.state.avglast, last: this.state.last, 
-                                                returnProfile: this.returnProfile.bind(this), common: this.state.common, 
-                                                common_right: this.state.common_right, common_wrong: this.state.common_wrong});
-  };
-  returnProfile(q, t, a, al, l, com, comr, comw){
-    this.setState({qno: q, total: t, avg: a, avglast: al, last: l, common: com, common_right: comr, common_wrong: comw});
-  };
-
-  returnData(q, t, a, al, l, com, comr, comw){
-    this.setState({qno: q+1, total: t, avg: a, avglast: al, last: l, common: com, common_right: comr, common_wrong: comw});
-    this.getQuestion();
-  };
-
-  beginSet = async () => {
-    const q = parseInt(await AsyncStorage.getItem('qno'));
-    if(Number.isNaN(q) == false)
-    {
-      const t = parseInt(await AsyncStorage.getItem('total'));
-      const a = parseFloat(await AsyncStorage.getItem('avg'));
-      const al = parseFloat(await AsyncStorage.getItem('avglast'));
-      const la = JSON.parse(await AsyncStorage.getItem('last'));
-      const common = JSON.parse(await AsyncStorage.getItem('common'));
-      const common_right = JSON.parse(await AsyncStorage.getItem('common_right'));
-      const common_wrong = JSON.parse(await AsyncStorage.getItem('common_wrong'));
-      this.setState({qno: q, total: t, avg: a, avglast: al, last: la, common: common, common_right: common_right, common_wrong: common_wrong});
-    }
-  };
-
-  getQuestion = () => {
-    db.ref('questions/')
-      .once('value')
-      .then(snapshot => {
-        this.setState({questions: snapshot.val()});
-        this.makeQuestion();
-    });
-  };
-
-  makeQuestion = () => {
-    var questions = this.state.questions;
-    var category = Object.keys(questions)[Math.floor(Math.random()*8)];
-    if(category == "Rich")
-    {
-      questions = questions[category][Math.floor(Math.random()*10) + 2010];
-    }
-    else if(category == "Population")
-    {
-      var arr1 = ["2000", "2020"];
-      questions = questions[category][arr1[(Math.floor(Math.random()*2))]];
-    }
-    else if(category == "Movies")
-    {
-      var arr2 = ["Adjusted", "Unadjusted"];
-      questions = questions[category][arr2[(Math.floor(Math.random()*2))]];
-    }
-    else
-    {
-      questions = questions[category];
-    }
-    var number = Object.keys(questions).length - 1;
-    var a_index = Math.floor(Math.random()*number) + 1;
-    var b_index = Math.floor(Math.random()*number) + 1;
-    while(a_index == b_index)
-    {
-      b_index = Math.floor(Math.random()*number) + 1;
-    }
-    var a = questions[a_index];
-    var b = questions[b_index];
-    var answer = a_index>b_index ? "b" : "a";
-    var answers = ["a", "b"];
-    if(category == "Equal")
-    {
-      answer = answers[Math.floor(Math.random()*2)];
-    }
-    else if(category == "Unequal Pattern")
-    {
-      var choice = Math.floor(Math.random()*10);
-      answer = choice<7 ? answers[0] : answers[1];
-    }
-    else if(category == "Unequal Qno")
-    {
-      var choice = Math.floor(Math.random()*100);
-      answer = choice<98 ? answers[0] : answers[1];
-      if(a == "Qno")
-      {
-        a = this.state.qno;
-      }
-      else
-      {
-        b = this.state.qno;
-      }
-    }
-    var question = a + " and " + b + " " + questions["Question"];
-    this.setState({question: question, a: a, b: b, answer: answer});
-  };
-
-  componentDidMount () {
-    this.getQuestion();
-    this.beginSet();
+    this.props.navigation.navigate('Example_Transition', {correct: correct, prob: p});
   };
 
   static navigationOptions={
@@ -175,11 +46,7 @@ export default class Main extends React.Component {
       <View style={styles.parent}>
         <View style={{flex: 1}}>
           <View style={styles.header}>
-            <View style={styles.profileView}>
-              <TouchableOpacity style={styles.profileButton} onPress={() => {this.toProfile()}}>
-                <Text style={styles.profile}>Profile</Text>
-              </TouchableOpacity>
-            </View>
+            <View style={{flex: 2}}/>
             <View style={styles.numberView}>
               <LinearTextGradient
                   style={styles.number}
@@ -188,7 +55,7 @@ export default class Main extends React.Component {
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                 >
-                <Text>Question {this.state.qno}</Text>
+                <Text>Question 0</Text>
               </LinearTextGradient>
             </View>
             <View style={styles.totalView}>

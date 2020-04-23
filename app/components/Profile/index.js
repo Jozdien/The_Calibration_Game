@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image, TextInput, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon2 from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 
@@ -29,6 +30,10 @@ export default class Profile extends React.Component {
     this.props.navigation.goBack();
   };
 
+  info = () => {
+    this.props.navigation.navigate("Info");
+  }
+
   clear = () => {
     Alert.alert(
       'Are you sure you want to clear your statistics?',
@@ -48,7 +53,15 @@ export default class Profile extends React.Component {
   };
   getName = async () => {
     const name = await AsyncStorage.getItem('name');
-    this.setState({name: name});
+    console.log(name);
+    if(name != null)
+    {
+      this.setState({name: name});
+    }
+    else
+    {
+      this.setState({name: "Player"});
+    }
   };
 
   componentDidMount () {
@@ -102,7 +115,10 @@ export default class Profile extends React.Component {
           <TouchableOpacity style={styles.back} onPress={() => {this.return()}}>
             <Icon name="chevron-left" color="#FFFFFF" size={40}/>
           </TouchableOpacity>
-          <View style={{flex: 8}}/>
+          <View style={{flex: 7}}/>
+          <TouchableOpacity style={styles.back} onPress={() => {this.info()}}>
+            <Icon2 name="question" color="#FFFFFF" size={30}/>
+          </TouchableOpacity>
         </View>
         <View style={styles.profile}>
           <View style={styles.imageView}>
