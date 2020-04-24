@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import { LinearTextGradient } from "react-native-text-gradient";
 import ShadowView from 'react-native-simple-shadow-view';
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import {db} from './../../../src/config.js';
 import questions from './../assets/questions.json';
 import styles from './styles';
@@ -96,11 +97,20 @@ export default class Main extends React.Component {
   };
 
   getQuestion = () => {
-    db.ref('questions/')
-      .once('value')
-      .then(snapshot => {
-        this.setState({questions: snapshot.val()});
-        this.makeQuestion();
+    NetInfo.fetch().then(state => {
+      if(state.isConnected == true)
+      {
+        db.ref('questions/')
+          .once('value')
+          .then(snapshot => {
+            this.setState({questions: snapshot.val()});
+            this.makeQuestion();
+        });
+      }
+      else
+      {
+        this.setState({questions: questions});
+      }
     });
   };
 

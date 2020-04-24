@@ -53,7 +53,6 @@ export default class Profile extends React.Component {
   };
   getName = async () => {
     const name = await AsyncStorage.getItem('name');
-    console.log(name);
     if(name != null)
     {
       this.setState({name: name});
