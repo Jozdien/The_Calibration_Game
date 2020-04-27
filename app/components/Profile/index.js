@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image, TextInput, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Icon2 from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
 import styles from './styles';
 
@@ -114,9 +113,9 @@ export default class Profile extends React.Component {
           <TouchableOpacity style={styles.back} onPress={() => {this.return()}}>
             <Icon name="chevron-left" color="#FFFFFF" size={40}/>
           </TouchableOpacity>
-          <View style={{flex: 7}}/>
+          <View style={{flex: 10}}/>
           <TouchableOpacity style={styles.back} onPress={() => {this.info()}}>
-            <Icon2 name="question" color="#FFFFFF" size={30}/>
+            <Text style={styles.info}>Info</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.profile}>

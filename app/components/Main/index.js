@@ -2,16 +2,15 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import { LinearTextGradient } from "react-native-text-gradient";
 import ShadowView from 'react-native-simple-shadow-view';
+import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-community/async-storage';
-import NetInfo from '@react-native-community/netinfo';
-import {db} from './../../../src/config.js';
-import questions from './../assets/questions.json';
 import styles from './styles';
 
 export default class Main extends React.Component {
   constructor() {
     super()
     this.state = {
+      asked: [],
       questions: {},
       qno: 1,
       total: 0,
@@ -27,6 +26,7 @@ export default class Main extends React.Component {
       answer: 'a',
       choice: '',
       prob: 0,
+      visibility: false
     }
   }
 
@@ -78,6 +78,10 @@ export default class Main extends React.Component {
 
   returnData(q, t, a, al, l, com, comr, comw){
     this.setState({qno: q+1, total: t, avg: a, avglast: al, last: l, common: com, common_right: comr, common_wrong: comw});
+    if(q == 20)
+  	{
+  		this.setState({visibility: true});
+  	}
     this.getQuestion();
   };
 
@@ -93,30 +97,39 @@ export default class Main extends React.Component {
       const common_right = JSON.parse(await AsyncStorage.getItem('common_right'));
       const common_wrong = JSON.parse(await AsyncStorage.getItem('common_wrong'));
       this.setState({qno: q, total: t, avg: a, avglast: al, last: la, common: common, common_right: common_right, common_wrong: common_wrong});
+      var asked = JSON.parse(await AsyncStorage.getItem('asked'));
+      var question = this.state.question;
+      while(asked.includes(question))
+      {
+        this.makeQuestion();
+      }
+      asked[q%100] = question;
+    }
+    else
+    {
+      var asked = new Array(100);
+      asked[1] = this.state.question;
+      await AsyncStorage.setItem('asked', JSON.stringify(asked));
     }
   };
 
-  getQuestion = () => {
-    NetInfo.fetch().then(state => {
-      if(state.isConnected == true)
-      {
-        db.ref('questions/')
-          .once('value')
-          .then(snapshot => {
-            this.setState({questions: snapshot.val()});
-            this.makeQuestion();
-        });
-      }
-      else
-      {
-        this.setState({questions: questions});
-      }
-    });
+  getQuestion = async() => {
+    const questions = JSON.parse(await AsyncStorage.getItem('questions'));
+    this.setState({questions: questions});
+    this.makeQuestion();
   };
 
   makeQuestion = () => {
     var questions = this.state.questions;
     var category = Object.keys(questions)[Math.floor(Math.random()*8)];
+    if(category == "Equal" || category == "Unequal Pattern" || category == "Unequal Qno")
+    {
+    	var category = Object.keys(questions)[Math.floor(Math.random()*8)];
+    }
+    if(category == "Equal" || category == "Unequal Pattern" || category == "Unequal Qno")
+    {
+      var category = Object.keys(questions)[Math.floor(Math.random()*8)];
+    }
     if(category == "Rich")
     {
       questions = questions[category][Math.floor(Math.random()*10) + 2010];
@@ -202,7 +215,7 @@ export default class Main extends React.Component {
               </LinearTextGradient>
             </View>
             <View style={styles.totalView}>
-              <Text style={styles.totalLabel}>Score</Text>
+              <Text style={styles.totalLabel}>Avg</Text>
               <Text style={styles.total} numberOfLines={1}>{this.state.avg}</Text>
             </View>
           </View>
@@ -313,6 +326,29 @@ export default class Main extends React.Component {
             </View>
           </View>
         </View>
+        <Modal isVisible={this.state.visibility}>
+	        <View style={{flex: 1}}>
+	        	<View style={{flex: 4}}/>
+	          <View style={styles.modalWhyExist}>
+	          	<View style={{flex: 4}}>
+	          		<Text style={styles.modalWhyExistHead}>Stats</Text>
+	          	</View>
+	          	<View style={{flex: 6}}>
+	          		<Text style={styles.modalWhyExistText}>
+	          			Check out your profile to see some patterns in the way you play.
+	          		</Text>
+	          	</View>
+	          	<View style={styles.modalWhyExistOKView}>
+	          		<TouchableOpacity style={{flex: 1, justifyContent: 'center'}} onPress={() => {this.setState({visibility: false})}}>
+	          			<Text style={styles.modalWhyExistOKText}>
+	          				OK
+	          			</Text>
+	          		</TouchableOpacity>
+	          	</View>
+	          </View>
+	          <View style={{flex: 4}}/>
+	        </View>
+	      </Modal>
       </View>
     );
   }

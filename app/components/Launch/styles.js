@@ -3,7 +3,10 @@ const dimensions = Dimensions.get('window');
 const height = dimensions.height/4;
 const width = dimensions.width;
 const color = "#0A0134";
-const textcolor = "#FFFFFF";
+const textcolor = "#D0D0D0";
+const textsize = 0.0315*width;
+const textsize2 = 0.033*width;
+const headsize = 21;
 
 export default StyleSheet.create({
     parent: {
@@ -73,108 +76,36 @@ export default StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
     },
-    infoTable: {
-        flex: 1,
-        flexDirection: 'row',
-        marginLeft: '-7%',
-    },
-    infoTableText: {
-        marginBottom: '4.5%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    infoTableScoreView: {
-        marginBottom: '2%',
-        marginRight: '-7%',
-        flexDirection: 'row'
-    },
-    infoTableNumber: {
-        marginLeft: '2%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    infoTableScore: {
-        marginLeft: '4.5%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    infoTableScoreN1: {
-        marginLeft: '4.8%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    infoTableScoreN2: {
-        marginLeft: '4.9%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    infoTableScoreN3: {
-        marginLeft: '5.8%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    infoTableScoreN4: {
-        marginLeft: '4.8%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    infoTableScoreN5: {
-        marginLeft: '3.7%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    infoTableScoreN6: {
-        marginLeft: '3%',
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
     options: {
         flex: 7, 
-    },
-    optionsView: {
-        flexDirection: 'row',
-        marginLeft: "5%",
-        marginRight: '5%',
+        width: '60%',
+        alignSelf: 'center',
     },
     why: {
         flex: 1,
+        borderWidth: 1,
+        borderColor: "#FFFFFF",
+        borderRadius: 5,
         justifyContent: 'center',
     },
     whyText: {
         fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    whyTextActive: {
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: 13,
+        fontSize: 14,
+        textAlign: 'center',
         color: textcolor
     },
     whyScore: {
         flex: 1,
-        height: '100%',
+        borderWidth: 1,
+        borderColor: "#FFFFFF",
+        borderRadius: 5,
         justifyContent: 'center',
     },
     whyScoreText: {
         fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
+        fontSize: 14,
+        textAlign: 'center',
         color: textcolor,
-        alignSelf: 'flex-end',
-    },
-    whyScoreTextActive: {
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: 13,
-        color: textcolor,
-        alignSelf: 'flex-end',
     },
     optionsTextView: {
         marginTop: '-2%',
@@ -211,5 +142,112 @@ export default StyleSheet.create({
         fontFamily: 'Montserrat-Regular',
         alignSelf: 'center',
         color: '#A0A0A0'
+    },
+    modalWhyExist: {
+        flex: 3, 
+        backgroundColor: "#101010", 
+        marginLeft: "5%", 
+        marginRight: "5%", 
+        borderRadius: 15
+    },
+    modalWhyExistHead: {
+        fontFamily: 'Montserrat-SemiBold', 
+        fontSize: headsize, 
+        margin: '5%', 
+        color: '#FFFFFF'
+    },
+    modalWhyExistText: {
+        fontFamily: 'Montserrat-Regular', 
+        fontSize: textsize2, 
+        margin: '5%', 
+        marginTop: '3%', 
+        color: '#D0D0D0'
+    },
+    modalWhyExistOKView: {
+        flex: 4, 
+        borderTopWidth: 0.2, 
+        borderColor: '#D0D0D0'
+    },  
+    modalWhyExistOKText: {
+        fontFamily: 'Montserrat-Regular', 
+        fontSize: 18, 
+        textAlign: 'center', 
+        color: '#FFFFFF'
+    },
+    modalWhy: {
+        flex: 4, 
+        backgroundColor: "#101010", 
+        marginLeft: "5%", 
+        marginRight: "5%", 
+        borderRadius: 15
+    },
+    modalWhyOKView: {
+        flex: 5, 
+        borderTopWidth: 0.2, 
+        borderColor: '#909090'
+    },  
+    infoTable: {
+        flex: 4,
+        flexDirection: 'row',
+        alignSelf: 'center'
+    },
+    infoTableText: {
+        marginBottom: '10%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
+    },
+    infoTableScoreView: {
+        marginBottom: '2%',
+        marginRight: '-7%',
+        flexDirection: 'row'
+    },
+    infoTableNumber: {
+        marginLeft: '2%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
+    },
+    infoTableScore: {
+        marginLeft: '4.5%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
+    },
+    infoTableScoreN1: {
+        marginLeft: '4.8%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
+    },
+    infoTableScoreN2: {
+        marginLeft: '4.9%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
+    },
+    infoTableScoreN3: {
+        marginLeft: '5.8%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
+    },
+    infoTableScoreN4: {
+        marginLeft: '4.8%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
+    },
+    infoTableScoreN5: {
+        marginLeft: '3.7%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
+    },
+    infoTableScoreN6: {
+        marginLeft: '3%',
+        fontFamily: 'Montserrat-Medium',
+        fontSize: textsize,
+        color: textcolor
     },
 })

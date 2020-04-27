@@ -66,7 +66,7 @@ export default class Main extends React.Component {
                   </LinearTextGradient>
                 </View>
                 <View style={styles.secondtotalView}>
-                  <Text style={styles.secondtotalLabel}>Score</Text>
+                  <Text style={styles.secondtotalLabel}>Avg</Text>
                   <Text style={styles.secondtotal} numberOfLines={1}>{this.state.avg}</Text>
                 </View>
               </View>

@@ -174,4 +174,35 @@ export default StyleSheet.create({
     	fontSize: 14,
     	color: '#F0F0F0',
     },
+    modalWhyExist: {
+        flex: 3, 
+        backgroundColor: "#101010", 
+        marginLeft: "5%", 
+        marginRight: "5%", 
+        borderRadius: 15
+    },
+    modalWhyExistHead: {
+        fontFamily: 'Montserrat-SemiBold', 
+        fontSize: 21, 
+        margin: '5%', 
+        color: '#FFFFFF'
+    },
+    modalWhyExistText: {
+        fontFamily: 'Montserrat-Regular', 
+        fontSize: 14, 
+        margin: '5%', 
+        marginTop: '3%', 
+        color: '#D0D0D0'
+    },
+    modalWhyExistOKView: {
+        flex: 4, 
+        borderTopWidth: 0.2, 
+        borderColor: '#D0D0D0'
+    },  
+    modalWhyExistOKText: {
+        fontFamily: 'Montserrat-Regular', 
+        fontSize: 18, 
+        textAlign: 'center', 
+        color: '#FFFFFF'
+    },
 })

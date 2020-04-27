@@ -23,9 +23,9 @@ export default class Main extends React.Component {
       score: 0,
       correct: 0,
       responseRight50: "You're right, for all the good it does you.",
-      responseRight: "You're right, and that's good.",
+      responseRight: "You're right, and that gets you some points.",
       responseWrong50: "You're wrong, for all the bad that does you.",
-      responseWrong: "You're wrong, and you will suffer for it.",
+      responseWrong: "You're wrong, and now I'll take your points.",
       trigger: 1,
     }
   }
@@ -170,7 +170,7 @@ export default class Main extends React.Component {
                   </LinearTextGradient>
                 </View>
                 <View style={styles.secondtotalView}>
-                  <Text style={styles.secondtotalLabel}>Score</Text>
+                  <Text style={styles.secondtotalLabel}>Avg</Text>
                   <Text style={styles.secondtotal} numberOfLines={1}>{this.state.avg}</Text>
                 </View>
               </View>

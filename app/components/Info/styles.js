@@ -3,7 +3,7 @@ const dimensions = Dimensions.get('window');
 const height = dimensions.height/4;
 const width = dimensions.width;
 const color = "#0A0134";
-const textcolor = "#FFFFFF";
+const textcolor = "#D0D0D0";
 
 export default StyleSheet.create({
     parent: {
@@ -73,10 +73,120 @@ export default StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
     },
-    infoTable: {
+    options: {
+        flex: 7, 
+        width: '60%',
+        alignSelf: 'center',
+    },
+    why: {
         flex: 1,
+        borderWidth: 1,
+        borderColor: "#FFFFFF",
+        borderRadius: 5,
+        justifyContent: 'center',
+    },
+    whyText: {
+        fontFamily: 'Montserrat-Medium',
+        fontSize: 14,
+        textAlign: 'center',
+        color: textcolor
+    },
+    whyScore: {
+        flex: 1,
+        borderWidth: 1,
+        borderColor: "#FFFFFF",
+        borderRadius: 5,
+        justifyContent: 'center',
+    },
+    whyScoreText: {
+        fontFamily: 'Montserrat-Medium',
+        fontSize: 14,
+        textAlign: 'center',
+        color: textcolor,
+    },
+    optionsTextView: {
+        marginTop: '-2%',
+        marginLeft: '5%',
+        marginRight: '5%',
+    },
+    optionsText: {
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 12,
+        color: textcolor,
+        textAlign: 'justify'
+    },
+    super: {
+        fontFamily: 'Montserrat-Regular', 
+        color: textcolor, 
+        fontSize: 9, 
+        lineHeight: 10
+    },
+    playView: {
+        flex: 2.8,
+        justifyContent: 'center',
+    },
+    play: {
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: '-10%',
+        backgroundColor: '#000005',
+        borderRadius: 5,
+        width: '40%',
+        height: '70%',
+    },
+    playText: {
+        fontSize: 16,
+        fontFamily: 'Montserrat-Regular',
+        alignSelf: 'center',
+        color: '#A0A0A0'
+    },
+    modalWhyExist: {
+        flex: 3, 
+        backgroundColor: "#101010", 
+        marginLeft: "5%", 
+        marginRight: "5%", 
+        borderRadius: 15
+    },
+    modalWhyExistHead: {
+        fontFamily: 'Montserrat-SemiBold', 
+        fontSize: 21, 
+        margin: '5%', 
+        color: '#FFFFFF'
+    },
+    modalWhyExistText: {
+        fontFamily: 'Montserrat-Regular', 
+        fontSize: 14, 
+        margin: '5%', 
+        marginTop: '3%', 
+        color: '#D0D0D0'
+    },
+    modalWhyExistOKView: {
+        flex: 4, 
+        borderTopWidth: 0.2, 
+        borderColor: '#D0D0D0'
+    },  
+    modalWhyExistOKText: {
+        fontFamily: 'Montserrat-Regular', 
+        fontSize: 18, 
+        textAlign: 'center', 
+        color: '#FFFFFF'
+    },
+    modalWhy: {
+        flex: 4, 
+        backgroundColor: "#101010", 
+        marginLeft: "5%", 
+        marginRight: "5%", 
+        borderRadius: 15
+    },
+    modalWhyOKView: {
+        flex: 5, 
+        borderTopWidth: 0.2, 
+        borderColor: '#909090'
+    },  
+    infoTable: {
+        flex: 4,
         flexDirection: 'row',
-        marginLeft: '-7%',
+        alignSelf: 'center'
     },
     infoTableText: {
         marginBottom: '4.5%',
@@ -136,80 +246,5 @@ export default StyleSheet.create({
         fontFamily: 'Montserrat-Medium',
         fontSize: 13,
         color: textcolor
-    },
-    options: {
-        flex: 7, 
-    },
-    optionsView: {
-        flexDirection: 'row',
-        marginLeft: "5%",
-        marginRight: '5%',
-    },
-    why: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    whyText: {
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor
-    },
-    whyTextActive: {
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: 13,
-        color: textcolor
-    },
-    whyScore: {
-        flex: 1,
-        height: '100%',
-        justifyContent: 'center',
-    },
-    whyScoreText: {
-        fontFamily: 'Montserrat-Medium',
-        fontSize: 13,
-        color: textcolor,
-        alignSelf: 'flex-end',
-    },
-    whyScoreTextActive: {
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: 13,
-        color: textcolor,
-        alignSelf: 'flex-end',
-    },
-    optionsTextView: {
-        marginTop: '-2%',
-        marginLeft: '5%',
-        marginRight: '5%',
-    },
-    optionsText: {
-        fontFamily: 'Montserrat-Regular',
-        fontSize: 12,
-        color: textcolor,
-        textAlign: 'justify'
-    },
-    super: {
-        fontFamily: 'Montserrat-Regular', 
-        color: textcolor, 
-        fontSize: 9, 
-        lineHeight: 10
-    },
-    playView: {
-        flex: 2.8,
-        justifyContent: 'center',
-    },
-    play: {
-        alignSelf: 'center',
-        justifyContent: 'center',
-        marginTop: '-10%',
-        backgroundColor: '#000005',
-        borderRadius: 5,
-        width: '40%',
-        height: '70%',
-    },
-    playText: {
-        fontSize: 16,
-        fontFamily: 'Montserrat-Regular',
-        alignSelf: 'center',
-        color: '#A0A0A0'
     },
 })

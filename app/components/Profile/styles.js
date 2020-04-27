@@ -10,7 +10,7 @@ export default StyleSheet.create({
     	flexDirection: 'row',
     },
     back: {
-    	flex: 1,
+    	flex: 2,
     	justifyContent: 'center',
     },
     profile:{
@@ -69,6 +69,12 @@ export default StyleSheet.create({
     	alignSelf: 'center',
     	borderRadius: 5,
     	aspectRatio: 1,
+    },
+    info: {
+        fontSize: 16,
+        fontFamily: 'Montserrat-Regular',
+        color: '#F0F0F0',
+        textAlign: 'center'
     },
     name: {
     	fontSize: 18,
