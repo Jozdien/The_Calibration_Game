@@ -1,6 +1,8 @@
 # The Calibration Game
-## How to run
+## Prerequisites
 Make sure that you have a React Native environment set up.  If not, [follow the instructions in this link.](https://reactnative.dev/docs/environment-setup)
+
+## Dependencies
 
 Once you do, move into the directory, and run
 
@@ -9,6 +11,8 @@ Once you do, move into the directory, and run
 to install all the dependancies. 
 
 (Some may not be installed, and may need to be installed manually using `npm install <package_name>`)
+
+## Running the app in development mode
 
 Then, with an Android device or emulator running, run 
 
