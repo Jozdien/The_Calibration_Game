@@ -6,7 +6,8 @@ Once you do, move into the directory, and run
 
 `npm install`
 
-to install all the dependancies (Some may not be installed, and may need to be installed manually using `npm install <package_name>`.
+to install all the dependancies. 
+(Some may not be installed, and may need to be installed manually using `npm install <package_name>`)
 
 Then, with an Android device or emulator running, run 
 
