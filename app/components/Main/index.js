@@ -121,14 +121,15 @@ export default class Main extends React.Component {
 
   makeQuestion = () => {
     var questions = this.state.questions;
-    var category = Object.keys(questions)[Math.floor(Math.random()*8)];
+    var number = Object.keys(questions).length;
+    var category = Object.keys(questions)[Math.floor(Math.random()*number)];
     if(category == "Equal" || category == "Unequal Pattern" || category == "Unequal Qno")
     {
-    	var category = Object.keys(questions)[Math.floor(Math.random()*8)];
+    	var category = Object.keys(questions)[Math.floor(Math.random()*number)];
     }
     if(category == "Equal" || category == "Unequal Pattern" || category == "Unequal Qno")
     {
-      var category = Object.keys(questions)[Math.floor(Math.random()*8)];
+      var category = Object.keys(questions)[Math.floor(Math.random()*number)];
     }
     if(category == "Rich")
     {
@@ -148,7 +149,7 @@ export default class Main extends React.Component {
     {
       questions = questions[category];
     }
-    var number = Object.keys(questions).length - 1;
+    number = Object.keys(questions).length - 1;
     var a_index = Math.floor(Math.random()*number) + 1;
     var b_index = Math.floor(Math.random()*number) + 1;
     while(a_index == b_index)

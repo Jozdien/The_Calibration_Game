@@ -33,18 +33,30 @@ export default class Profile extends React.Component {
     this.props.navigation.navigate("Info");
   }
 
+  clearData = async () => {
+    this.setState({ qno: 1, total: 0, avg: 0, avglast: 0, last: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    common: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}, c: "N/A",
+                    common_right: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}, cr: "N/A",
+                    common_wrong: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}, cw: "N/A"});
+    await AsyncStorage.setItem('qno', "1");
+    await AsyncStorage.setItem('total', "0");
+    await AsyncStorage.setItem('avg', "0");
+    await AsyncStorage.setItem('avglast', "0");
+    await AsyncStorage.setItem('last', JSON.stringify([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+    await AsyncStorage.setItem('common', JSON.stringify({50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}));
+    await AsyncStorage.setItem('common_right', JSON.stringify({50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}));
+    await AsyncStorage.setItem('common_wrong', JSON.stringify({50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}));
+  };
+
   clear = () => {
     Alert.alert(
       'Are you sure you want to clear your statistics?',
       'Doing this will erase your profile data and history',
       [
-        {text: 'Yes', onPress: () => this.setState({qno: 1, total: 0, avg: 0, avglast: 0, last: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                                                    common: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}, c: "N/A",
-                                                    common_right: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}, cr: "N/A",
-                                                    common_wrong: {50: 0, 60: 0, 70: 0, 80: 0, 90: 0, 99: 0}, cw: "N/A"})},
+        {text: 'Yes', onPress: () => this.clearData()},
         {text: 'No'},
       ],
-      )
+    )
   };
 
   setName = async (text) => {
