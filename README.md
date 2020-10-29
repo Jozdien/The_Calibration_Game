@@ -1,4 +1,7 @@
 # The Calibration Game
+
+Check out the latest release on Play Store [here](https://play.google.com/store/apps/details?id=com.the_calibration_game&hl=en_US&gl=US).
+
 ## Prerequisites
 Make sure that you have a React Native environment set up.  If not, [follow the instructions in this link.](https://reactnative.dev/docs/environment-setup)
 
