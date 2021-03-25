@@ -1,4 +1,4 @@
-![Project Banner](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f7a71a1f-263f-482b-b3f0-3306955e33e9/The_Calibration_Game.webp?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210127%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210127T191334Z&X-Amz-Expires=86400&X-Amz-Signature=b84f0083166f88ed4101dfe193d47aed6edd49495220bc979eee8813a8964219&X-Amz-SignedHeaders=host)
+![Project Banner](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/e412eeeb-9336-4f40-adc5-6d2cb8f30a7f/The_Calibration_Game.webp?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210325%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210325T212041Z&X-Amz-Expires=86400&X-Amz-Signature=5d7491f6e677fc51bd20425a1f0bde1798344ff582200e10177cf694a16f69e2&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22The_Calibration_Game.webp%22)
 
 ## What is this?
 
