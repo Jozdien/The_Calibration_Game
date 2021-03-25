@@ -1,5 +1,3 @@
-![Project Banner](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/e412eeeb-9336-4f40-adc5-6d2cb8f30a7f/The_Calibration_Game.webp?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210325%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210325T212041Z&X-Amz-Expires=86400&X-Amz-Signature=5d7491f6e677fc51bd20425a1f0bde1798344ff582200e10177cf694a16f69e2&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22The_Calibration_Game.webp%22)
-
 ## What is this?
 
 We often overestimate the accuracy of our internal model of the world.  Those answers you were 99% sure were correct turn out to be wrong half the time.  Your stocks, conservatively bought because you're only 30% sure of their value going up, end up appreciating 80% of the time.
